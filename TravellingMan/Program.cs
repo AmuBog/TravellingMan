@@ -2,15 +2,15 @@
 using System.Text;
 
 namespace TravellingMan{
-    class Program{
-        static void Main(string[] args){
+    class Program {
+        static void Main(string[] args) {
 
+            int i = 0;
+            int cost = 0;
             Random rnd = new Random();
-            StringBuilder builder = new StringBuilder();
             int[] route = new int[4];
-            bool chosen = true;
-            bool[] visited = new bool[4];
-            int[,] array = new int[,]
+            int[] exists = new int[4];
+            int[,] cities = new int[,]
             {
                 {0, 3, 6, 7},
                 {3, 0, 9, 5},
@@ -18,29 +18,25 @@ namespace TravellingMan{
                 {7, 5, 4, 0}
             };
 
-            int start = rnd.Next(4);
-            builder.Append(start + "->");
-            route[0] = start;
-            visited[start] = true;
-            for(int i=1;i<4;i++) {
-                int next = rnd.Next(4);
-                while (chosen) {
-                    if (visited[next] == true)
-                        next = rnd.Next(4);
-                    else
-                        chosen = false;
-                }
-                Console.WriteLine("City" + (i+1) + " = " + next);
-                route[i] = next;
-                visited[next] = true;
-
-                if (i < 3)
-                    builder.Append(next + "->");
+            while (i < 4) {
+                int rando = rnd.Next(4);
+                if (exists[rando] == 1)
+                    continue;
                 else {
-                    builder.Append(next + ".");
+                    route[i] = rando;
+                    exists[rando] = 1;
+                    i++;
                 }
             }
-            Console.WriteLine(builder);
+            for (i = 0; i < route.Length; i++) {
+                Console.WriteLine(route[i]+1);
+            }
+            for (i = 0; i < route.Length - 1; i++) {
+                cost += cities[route[i], route[i + 1]];
+            }
+            Console.WriteLine("Total cost: " + cost + "$");
+
+
             Console.Read();
         }
     }
