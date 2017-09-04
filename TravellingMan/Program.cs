@@ -40,7 +40,7 @@ namespace TravellingMan{
                     builder.Append(next + ".");
                 }
             }
-            
+            Console.WriteLine(builder);
             Console.Read();
         }
     }
