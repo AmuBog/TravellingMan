@@ -5,21 +5,25 @@ namespace TravellingMan{
     class Program {
         static void Main(string[] args) {
 
+            Random();
+            Console.Read();
+
+        }
+
+        static void Random() {
             int i = 0;
             int cost = 0;
+            int numbOfCities = 5;
             Random rnd = new Random();
-            int[] route = new int[4];
-            int[] exists = new int[4];
-            int[,] cities = new int[,]
-            {
-                {0, 3, 6, 7},
-                {3, 0, 9, 5},
-                {6, 9, 0, 4},
-                {7, 5, 4, 0}
-            };
+            int[] route = new int[numbOfCities];
+            int[] exists = new int[numbOfCities];
+            int[,] cities;
 
-            while (i < 4) {
-                int rando = rnd.Next(4);
+            cities = MatrixFill(numbOfCities);
+            Console.WriteLine("\n");
+
+            while (i < numbOfCities) {
+                int rando = rnd.Next(numbOfCities);
                 if (exists[rando] == 1)
                     continue;
                 else {
@@ -29,15 +33,40 @@ namespace TravellingMan{
                 }
             }
             for (i = 0; i < route.Length; i++) {
-                Console.WriteLine(route[i]+1);
+                Console.WriteLine("City " + (route[i] + 1));
             }
             for (i = 0; i < route.Length - 1; i++) {
                 cost += cities[route[i], route[i + 1]];
             }
             Console.WriteLine("Total cost: " + cost + "$");
+        }
+        static int[,] MatrixFill(int nodes) {
+            Random rnd = new Random();
+            int edge;
+            int[,] cities = new int[nodes, nodes];
 
-
-            Console.Read();
+            for(int i = 0; i < nodes; i++) {
+                for(int j = 0; j < nodes; j++) {
+                    if (cities[i, j] != 0)// If space is filled.
+                        continue;
+                    else if (j == i) { // Distance to the node itself is 0.
+                        cities[i,j] = 0;
+                    }
+                    else {
+                        edge = rnd.Next(1,9);
+                        cities[i, j] = edge;
+                        cities[j, i] = edge;
+                    }
+                }
+            }
+            for (int i = 0; i < nodes; i++) {
+                for (int j = 0; j < nodes; j++) {
+                    if (j == 0 && i != 0)
+                        Console.WriteLine();
+                    Console.Write(cities[i,j] + " ");
+                }
+            }
+            return cities;
         }
     }
 }
