@@ -59,7 +59,7 @@ namespace TravellingMan{
             }
             for (i = 0; i < route.Length; i++) {
                 if (i == (route.Length - 1)) {
-                    Console.Write("City " + (route[i] + 1) + ".");
+                    Console.Write("City " + (route[i] + 1) + ".\n");
                 }
                 else {
                     Console.Write("City " + (route[i] + 1) + "->");
@@ -103,7 +103,7 @@ namespace TravellingMan{
             }
             for (j = 0; j < cheapest.Length; j++) {
                 if (j == (cheapest.Length - 1)) {
-                    Console.Write("City " + (cheapest[j] + 1) + ".");
+                    Console.Write("City " + (cheapest[j] + 1) + ".\n");
                 }
                 else {
                     Console.Write("City " + (cheapest[j] + 1) + "->");
