@@ -4,10 +4,10 @@ using System.Text;
 namespace TravellingMan{
     class Program {
         static void Main(string[] args) {
-            int cities = 5;
+            int cities = 10;
             int[,] matrix = MatrixFill(cities);
 
-            Console.WriteLine("\n\nTotal cost Random: " + Random(cities, matrix) + " km");
+            Console.WriteLine("Total cost Random: " + Random(cities, matrix) + " km");
             Console.WriteLine("Total cost Iterative Random: " + IterativeRandom(cities, matrix, 5) + " km");
             Console.Read();
         }
@@ -30,13 +30,13 @@ namespace TravellingMan{
                     }
                 }
             }
-            for (int i = 0; i < nodes; i++) {
+            /*for (int i = 0; i < nodes; i++) {
                 for (int j = 0; j < nodes; j++) {
                     if (j == 0 && i != 0)
                         Console.WriteLine();
                     Console.Write(cities[i,j] + " ");
                 }
-            }
+            }*/
             return cities;
         }
         static int Random(int numbOfCities, int[,] cities) {
@@ -45,8 +45,6 @@ namespace TravellingMan{
             Random rnd = new Random();
             int[] route = new int[numbOfCities];
             int[] exists = new int[numbOfCities];
-
-            //Console.WriteLine("\n");
 
             while (i < numbOfCities) {
                 int rando = rnd.Next(numbOfCities);
@@ -58,9 +56,14 @@ namespace TravellingMan{
                     i++;
                 }
             }
-            /*for (i = 0; i < route.Length; i++) {
-                Console.WriteLine("City " + (route[i] + 1));
-            }*/
+            for (i = 0; i < route.Length; i++) {
+                if (i == (route.Length - 1)) {
+                    Console.Write("City " + (route[i] + 1) + ".");
+                }
+                else {
+                    Console.Write("City " + (route[i] + 1) + "->");
+                }
+            }
             for (i = 0; i < route.Length - 1; i++) {
                 cost += cities[route[i], route[i + 1]];
             }        
@@ -71,6 +74,7 @@ namespace TravellingMan{
             int minCost = Int32.MaxValue;
             Random rnd = new Random();
             int[] route, exists;
+            int[] cheapest = new int[numbOfCities];
 
             for (int i = 0; i < iterations; i++) {
                 cost = 0;
@@ -87,15 +91,21 @@ namespace TravellingMan{
                         j++;
                     }
                 }
-                /*for (i = 0; i < route.Length; i++) {
-                    Console.WriteLine("City " + (route[i] + 1));
-                }*/
-                
                 for (j = 0; j < route.Length - 1; j++) {
                     cost += cities[route[j], route[j + 1]];                    
                 }
                 if (cost < minCost) {
                     minCost = cost;
+                    Array.Copy(route, cheapest, numbOfCities);
+                }
+
+            }
+            for (j = 0; j < cheapest.Length; j++) {
+                if (j == (cheapest.Length - 1)) {
+                    Console.Write("City " + (cheapest[j] + 1) + ".");
+                }
+                else {
+                    Console.Write("City " + (cheapest[j] + 1) + "->");
                 }
             }
             return minCost;
