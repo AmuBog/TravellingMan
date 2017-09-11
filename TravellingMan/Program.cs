@@ -6,17 +6,18 @@ namespace TravellingMan{
         static void Main(string[] args) {
             int cities = 10;
             int[,] matrix = MatrixFill(cities);
+            int[] random, iterativeRandom, greedy;
 
-            int[] random = Random(cities, matrix);
-            Console.WriteLine("Total length Random: " + GetCost(random, matrix) + " km");
-            int[] iterativeRandom = IterativeRandom(cities, matrix, 5);
-            Console.WriteLine("Total length Iterative Random: " + GetCost(iterativeRandom, matrix) + " km");
-            int[] greedy = Greedy(cities, matrix);
+            PrintRoute(random = Random(cities, matrix));
+            Console.WriteLine("Total length Random: " + GetCost(random, matrix) + " km\n");
+            PrintRoute(iterativeRandom = IterativeRandom(cities, matrix, 5));
+            Console.WriteLine("Total length Iterative Random: " + GetCost(iterativeRandom, matrix) + " km\n");
+            PrintRoute(greedy = Greedy(cities, matrix));
             Console.WriteLine("Total length Greedy: " + GetCost(greedy, matrix) + " km\n");
 
-            Console.WriteLine("Total length Random Improved: " + Improved(random, matrix) + " km");
-            Console.WriteLine("Total length Iterative Random Improved: " + Improved(iterativeRandom, matrix) + " km");
-            Console.WriteLine("Total length Greedy Improved: " + Improved(greedy, matrix) + " km");
+            Console.WriteLine("Total length Random Improved: " + Improved(random, matrix) + " km\n");
+            Console.WriteLine("Total length Iterative Random Improved: " + Improved(iterativeRandom, matrix) + " km\n");
+            Console.WriteLine("Total length Greedy Improved: " + Improved(greedy, matrix) + " km\n");
 
             Console.Read();
         }
@@ -56,9 +57,18 @@ namespace TravellingMan{
             }
             return cost;
         }
+        static void PrintRoute(int[] route) {
+            for (int i = 0; i < route.Length; i++) {
+                if (i == (route.Length - 1)) {
+                    Console.Write("City " + (route[i] + 1) + ".");
+                }
+                else {
+                    Console.Write("City " + (route[i] + 1) + "->");
+                }
+            }
+        }
         static int[] Random(int numbOfCities, int[,] cities) {
             int i = 0;
-            //int cost = 0;
             Random rnd = new Random();
             int[] route = new int[numbOfCities];
             int[] exists = new int[numbOfCities];
@@ -72,18 +82,7 @@ namespace TravellingMan{
                     exists[rando] = 1;
                     i++;
                 }
-            }
-            for (i = 0; i < route.Length; i++) {
-                if (i == (route.Length - 1)) {
-                    Console.Write("City " + (route[i] + 1) + ".\n");
-                }
-                else {
-                    Console.Write("City " + (route[i] + 1) + "->");
-                }
-            }
-            /*for (i = 0; i < route.Length - 1; i++) {
-                cost += cities[route[i], route[i + 1]];
-            }*/        
+            }    
             return route;
         }
         static int[] IterativeRandom(int numbOfCities, int[,] cities, int iterations) {
@@ -117,18 +116,9 @@ namespace TravellingMan{
                 }
 
             }
-            for (j = 0; j < cheapest.Length; j++) {
-                if (j == (cheapest.Length - 1)) {
-                    Console.Write("City " + (cheapest[j] + 1) + ".\n");
-                }
-                else {
-                    Console.Write("City " + (cheapest[j] + 1) + "->");
-                }
-            }
             return cheapest;
         }
         static int[] Greedy(int numbOfCities, int[,] cities) {
-            //int cost = 0;
             int[] exists = new int[numbOfCities];
             int[] route = new int[numbOfCities];
             Random rnd = new Random();
@@ -147,17 +137,6 @@ namespace TravellingMan{
                 route[i] = city;
                 exists[city] = 1;
             }
-            for (int j = 0; j < route.Length; j++) {
-                if (j == (route.Length - 1)) {
-                    Console.Write("City " + (route[j] + 1) + ".\n");
-                }
-                else {
-                    Console.Write("City " + (route[j] + 1) + "->");
-                }
-            }
-            /*for (int i = 0; i < route.Length - 1; i++) {
-                cost += cities[route[i], route[i + 1]];
-            }*/
             return route;
         }
         static int Improved(int[] initial, int[,] cities) {
@@ -186,19 +165,11 @@ namespace TravellingMan{
                 else {
                     stagnation++;
                 }
-                if(stagnation > 10) {
+                if(stagnation > 15) {
                     stop = true;
                 }
             }
-            for (int j = 0; j < cheapest.Length; j++) {
-                if (j == (cheapest.Length - 1)) {
-                    Console.Write("City " + (cheapest[j] + 1) + ".\n");
-                }
-                else {
-                    Console.Write("City " + (cheapest[j] + 1) + "->");
-                }
-            }
-
+            PrintRoute(cheapest);
             return cost;
         }
     }
