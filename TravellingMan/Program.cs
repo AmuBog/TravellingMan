@@ -7,9 +7,12 @@ namespace TravellingMan{
             int cities = 10;
             int[,] matrix = MatrixFill(cities);
 
-            Console.WriteLine("Total length Random: " + Random(cities, matrix) + " km");
-            Console.WriteLine("Total length Iterative Random: " + IterativeRandom(cities, matrix, 5) + " km");
-            Console.WriteLine("Total length Greedy: " + Greedy(cities, matrix) + " km");
+            int[] random = Random(cities, matrix);
+            Console.WriteLine("Total length Random: " + GetCost(random, matrix) + " km");
+            int[] iterativeRandom = IterativeRandom(cities, matrix, 5);
+            Console.WriteLine("Total length Iterative Random: " + GetCost(iterativeRandom, matrix) + " km");
+            int[] greedy = Greedy(cities, matrix);
+            Console.WriteLine("Total length Greedy: " + GetCost(greedy, matrix) + " km");
             Console.Read();
         }
         static int[,] MatrixFill(int nodes) {
@@ -40,9 +43,17 @@ namespace TravellingMan{
             }*/
             return cities;
         }
-        static int Random(int numbOfCities, int[,] cities) {
-            int i = 0;
+        static int GetCost(int[] route, int[,] cities) {
             int cost = 0;
+
+            for (int i = 0; i < route.Length - 1; i++) {
+                cost += cities[route[i], route[i + 1]];
+            }
+            return cost;
+        }
+        static int[] Random(int numbOfCities, int[,] cities) {
+            int i = 0;
+            //int cost = 0;
             Random rnd = new Random();
             int[] route = new int[numbOfCities];
             int[] exists = new int[numbOfCities];
@@ -65,12 +76,12 @@ namespace TravellingMan{
                     Console.Write("City " + (route[i] + 1) + "->");
                 }
             }
-            for (i = 0; i < route.Length - 1; i++) {
+            /*for (i = 0; i < route.Length - 1; i++) {
                 cost += cities[route[i], route[i + 1]];
-            }        
-            return cost;
+            }*/        
+            return route;
         }
-        static int IterativeRandom(int numbOfCities, int[,] cities, int iterations) {
+        static int[] IterativeRandom(int numbOfCities, int[,] cities, int iterations) {
             int j, cost;
             int minCost = Int32.MaxValue;
             Random rnd = new Random();
@@ -109,9 +120,9 @@ namespace TravellingMan{
                     Console.Write("City " + (cheapest[j] + 1) + "->");
                 }
             }
-            return minCost;
+            return cheapest;
         }
-        static int Greedy(int numbOfCities, int[,] cities) {
+        static int[] Greedy(int numbOfCities, int[,] cities) {
             int cost = 0;
             int[] exists = new int[numbOfCities];
             int[] route = new int[numbOfCities];
@@ -139,9 +150,17 @@ namespace TravellingMan{
                     Console.Write("City " + (route[j] + 1) + "->");
                 }
             }
-            for (int i = 0; i < route.Length - 1; i++) {
+            /*for (int i = 0; i < route.Length - 1; i++) {
                 cost += cities[route[i], route[i + 1]];
-            }
+            }*/
+            return route;
+        }
+        static int Improved(int[] initial, int[,] cities) {
+            int cost = 0;
+            int[] cheapest;
+
+
+
             return cost;
         }
     }
