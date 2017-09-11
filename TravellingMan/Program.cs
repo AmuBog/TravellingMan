@@ -3,15 +3,18 @@
 namespace TravellingMan{
     class Program {
         static void Main(string[] args) {
-            int cities = 10;
+            int cities = 10000;
             int[,] matrix = MatrixFill(cities);
             int[] random, iterativeRandom, greedy;
 
-            PrintRoute(random = Random(cities, matrix));
+            random = Random(cities, matrix);
+            //PrintRoute(random = Random(cities, matrix));
             Console.WriteLine("Total length Random: " + GetCost(random, matrix) + " km\n");
-            PrintRoute(iterativeRandom = IterativeRandom(cities, matrix, 5));
+            iterativeRandom = IterativeRandom(cities, matrix, 5);
+            //PrintRoute(iterativeRandom = IterativeRandom(cities, matrix, 5));
             Console.WriteLine("Total length Iterative Random: " + GetCost(iterativeRandom, matrix) + " km\n");
-            PrintRoute(greedy = Greedy(cities, matrix));
+            greedy = Greedy(cities, matrix);
+            //PrintRoute(greedy = Greedy(cities, matrix));
             Console.WriteLine("Total length Greedy: " + GetCost(greedy, matrix) + " km\n");
 
             Console.WriteLine("Total length Random Improved: " + Improved(random, matrix) + " km\n");
@@ -164,11 +167,11 @@ namespace TravellingMan{
                 else {
                     stagnation++;
                 }
-                if(stagnation > 15) {
+                if(stagnation > 100) {
                     stop = true;
                 }
             }
-            PrintRoute(cheapest);
+            //PrintRoute(cheapest);
             return cost;
         }
     }
