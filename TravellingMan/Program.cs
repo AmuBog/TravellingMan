@@ -131,6 +131,14 @@ namespace TravellingMan{
                 route[i] = city;
                 exists[city] = 1;
             }
+            for (int j = 0; j < route.Length; j++) {
+                if (j == (route.Length - 1)) {
+                    Console.Write("City " + (route[j] + 1) + ".\n");
+                }
+                else {
+                    Console.Write("City " + (route[j] + 1) + "->");
+                }
+            }
             for (int i = 0; i < route.Length - 1; i++) {
                 cost += cities[route[i], route[i + 1]];
             }
