@@ -12,7 +12,12 @@ namespace TravellingMan{
             int[] iterativeRandom = IterativeRandom(cities, matrix, 5);
             Console.WriteLine("Total length Iterative Random: " + GetCost(iterativeRandom, matrix) + " km");
             int[] greedy = Greedy(cities, matrix);
-            Console.WriteLine("Total length Greedy: " + GetCost(greedy, matrix) + " km");
+            Console.WriteLine("Total length Greedy: " + GetCost(greedy, matrix) + " km\n");
+
+            Console.WriteLine("Total length Random Improved: " + Improved(random, matrix) + " km");
+            Console.WriteLine("Total length Iterative Random Improved: " + Improved(iterativeRandom, matrix) + " km");
+            Console.WriteLine("Total length Greedy Improved: " + Improved(greedy, matrix) + " km");
+
             Console.Read();
         }
         static int[,] MatrixFill(int nodes) {
@@ -123,7 +128,7 @@ namespace TravellingMan{
             return cheapest;
         }
         static int[] Greedy(int numbOfCities, int[,] cities) {
-            int cost = 0;
+            //int cost = 0;
             int[] exists = new int[numbOfCities];
             int[] route = new int[numbOfCities];
             Random rnd = new Random();
@@ -156,10 +161,43 @@ namespace TravellingMan{
             return route;
         }
         static int Improved(int[] initial, int[,] cities) {
-            int cost = 0;
-            int[] cheapest;
+            int cost = GetCost(initial, cities);
+            int temp, newCost;
+            int stagnation = 0;
+            int[] cheapest = new int[initial.Length];
+            bool stop = false;
+            Random rnd = new Random();
 
+            Array.Copy(initial, cheapest, initial.Length);
+            while (!stop) {
+                int city1 = rnd.Next(initial.Length);
+                int city2 = rnd.Next(initial.Length);
 
+                temp = initial[city1];
+                initial[city1] = initial[city2];
+                initial[city2] = temp;
+
+                newCost = GetCost(initial, cities);
+                if (newCost < cost) {
+                    Array.Copy(initial, cheapest, initial.Length);
+                    cost = newCost;
+                    stagnation = 0;
+                }
+                else {
+                    stagnation++;
+                }
+                if(stagnation > 10) {
+                    stop = true;
+                }
+            }
+            for (int j = 0; j < cheapest.Length; j++) {
+                if (j == (cheapest.Length - 1)) {
+                    Console.Write("City " + (cheapest[j] + 1) + ".\n");
+                }
+                else {
+                    Console.Write("City " + (cheapest[j] + 1) + "->");
+                }
+            }
 
             return cost;
         }
