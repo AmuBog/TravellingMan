@@ -3,9 +3,11 @@
 namespace TravellingMan{
     class Program {
         static void Main(string[] args) {
-            int cities = 10000;
+            int cities = 50;
             int[,] matrix = MatrixFill(cities);
             int[] random, iterativeRandom, greedy;
+
+            Optimal(cities, matrix);
 
             random = Random(cities, matrix);
             //PrintRoute(random = Random(cities, matrix));
@@ -57,6 +59,7 @@ namespace TravellingMan{
             for (int i = 0; i < route.Length - 1; i++) {
                 cost += cities[route[i], route[i + 1]];
             }
+            cost += cities[route[route.Length - 1], route[0]];
             return cost;
         }
         static void PrintRoute(int[] route) {
@@ -167,12 +170,44 @@ namespace TravellingMan{
                 else {
                     stagnation++;
                 }
-                if(stagnation > 100) {
+                if(stagnation > 1250) {
                     stop = true;
                 }
             }
             //PrintRoute(cheapest);
             return cost;
+        }
+        static void Optimal(int numbOfCities, int[,] cities) {
+            int[] exists = new int[numbOfCities];
+            int[] route = new int[numbOfCities];
+            int[] optimal = new int[numbOfCities];
+
+            for (int k = 0; k < numbOfCities; k++) {
+                Array.Clear(exists, 0, exists.Length);
+                int city = k;
+                exists[city] = 1;
+                route[0] = city;
+                for (int i = 1; i < numbOfCities; i++) {
+                    int min = Int32.MaxValue;
+                    for (int j = 0; j < numbOfCities; j++) {
+                        if (cities[route[i - 1], j] < min && cities[route[i - 1], j] != 0 && exists[j] != 1) {
+                            min = cities[route[i - 1], j];
+                            city = j;
+                        }
+                    }
+                    route[i] = city;
+                    exists[city] = 1;
+                }
+                if (k == 0) {
+                    Array.Copy(route, optimal, route.Length);
+                }
+                else {
+                    if (GetCost(route, cities) < GetCost(optimal, cities)) {
+                        Array.Copy(route, optimal, route.Length);
+                    }
+                }
+            }
+            Console.WriteLine("The Optimal Soution is " + GetCost(optimal, cities) + " km.\n");
         }
     }
 }
