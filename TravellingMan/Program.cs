@@ -7,7 +7,7 @@ namespace TravellingMan{
             int[,] matrix = MatrixFill(cities);
             int[] random, iterativeRandom, greedy;
 
-            Optimal(cities, matrix);
+            //Optimal(cities, matrix);
 
             random = Random(cities, matrix);
             //PrintRoute(random = Random(cities, matrix));
@@ -170,7 +170,7 @@ namespace TravellingMan{
                 else {
                     stagnation++;
                 }
-                if(stagnation > 1250) {
+                if(stagnation > Math.Pow(initial.Length,5)) {
                     stop = true;
                 }
             }
