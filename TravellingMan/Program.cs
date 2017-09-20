@@ -170,7 +170,7 @@ namespace TravellingMan{
                 else {
                     stagnation++;
                 }
-                if(stagnation > Math.Pow(initial.Length,5)) {
+                if(stagnation > 1000) {
                     stop = true;
                 }
             }
