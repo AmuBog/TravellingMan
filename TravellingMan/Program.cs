@@ -3,7 +3,7 @@
 namespace TravellingMan{
     class Program {
         static void Main(string[] args) {
-            int cities = 50;
+            int cities = 500;
             int[,] matrix = MatrixFill(cities);
             int[] random, iterativeRandom, greedy;
 
@@ -46,11 +46,12 @@ namespace TravellingMan{
             }
             /*for (int i = 0; i < nodes; i++) {
                 for (int j = 0; j < nodes; j++) {
-                    if (j == 0 && i != 0)
-                        Console.WriteLine();
                     Console.Write(cities[i,j] + " ");
+                    if (j == nodes-1)
+                        Console.WriteLine();
                 }
             }*/
+            Console.WriteLine();
             return cities;
         }
         static int GetCost(int[] route, int[,] cities) {
@@ -115,11 +116,11 @@ namespace TravellingMan{
                 for (j = 0; j < route.Length - 1; j++) {
                     cost += cities[route[j], route[j + 1]];                    
                 }
+                cost += cities[route[route.Length-1], route[0]];
                 if (cost < minCost) {
                     minCost = cost;
                     Array.Copy(route, cheapest, numbOfCities);
                 }
-
             }
             return cheapest;
         }
@@ -157,6 +158,10 @@ namespace TravellingMan{
                 int city1 = rnd.Next(initial.Length);
                 int city2 = rnd.Next(initial.Length);
 
+                while(city1 == city2) {
+                    city2 = rnd.Next(initial.Length);
+                }
+
                 temp = initial[city1];
                 initial[city1] = initial[city2];
                 initial[city2] = temp;
@@ -170,9 +175,10 @@ namespace TravellingMan{
                 else {
                     stagnation++;
                 }
-                if(stagnation > Math.Pow(initial.Length,5)) {
+                if(stagnation > 1000) {
                     stop = true;
                 }
+                Array.Copy(cheapest, initial, cheapest.Length);
             }
             //PrintRoute(cheapest);
             return cost;
