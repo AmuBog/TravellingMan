@@ -3,7 +3,7 @@
 namespace TravellingMan{
     class Program {
         static void Main(string[] args) {
-            int cities = 500;
+            int cities = 10000;
             int[,] matrix = MatrixFill(cities);
             int[] random, iterativeRandom, greedy;
 
