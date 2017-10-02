@@ -4,7 +4,7 @@ namespace TravellingMan{
     class Program {
         static void Main(string[] args) {
             // Number of cities
-            int cities = 10000;            
+            int cities = 100;            
             // Matrix containing cities and distance
             int[,] matrix = MatrixFill(cities);
             // Tables to store initial solutions
@@ -100,11 +100,12 @@ namespace TravellingMan{
             }
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            Console.WriteLine("Execution Time = " + elapsedMs);
+            Console.WriteLine("Execution Time Radndom = " + elapsedMs + " mS.");
             return route;
         }
         // Making an iterative random solution
         static int[] IterativeRandom(int numbOfCities, int[,] cities, int iterations) {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             int j, cost;
             int minCost = Int32.MaxValue;
             Random rnd = new Random();
@@ -126,19 +127,21 @@ namespace TravellingMan{
                         j++;
                     }
                 }
-                for (j = 0; j < route.Length - 1; j++) {
-                    cost += cities[route[j], route[j + 1]];                    
-                }
-                cost += cities[route[route.Length-1], route[0]];
+                cost = GetCost(route, cities);
+
                 if (cost < minCost) {
                     minCost = cost;
                     Array.Copy(route, cheapest, numbOfCities);
                 }
             }
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("Execution Time Iterative Radndom = " + elapsedMs + " mS.");
             return cheapest;
         }
         // Making a greedy solution
         static int[] Greedy(int numbOfCities, int[,] cities) {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             int[] exists = new int[numbOfCities];
             int[] route = new int[numbOfCities];
             Random rnd = new Random();
@@ -157,10 +160,14 @@ namespace TravellingMan{
                 route[i] = city;
                 exists[city] = 1;
             }
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("Execution Time Greedy = " + elapsedMs + " mS.");
             return route;
         }
         // Method improving the initial solutions
         static int Improved(int[] initial, int[,] cities) {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             int cost = GetCost(initial, cities);
             int temp, newCost;
             int stagnation = 0;
@@ -196,6 +203,9 @@ namespace TravellingMan{
                 Array.Copy(cheapest, initial, cheapest.Length);
             }
             //PrintRoute(cheapest);
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("Execution Time Improvement = " + elapsedMs + " mS.");
             return cost;
         }
     }
