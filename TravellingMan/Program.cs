@@ -3,25 +3,33 @@
 namespace TravellingMan{
     class Program {
         static void Main(string[] args) {
-            int cities = 10000;
+            // Number of cities
+            int cities = 10000;            
+            // Matrix containing cities and distance
             int[,] matrix = MatrixFill(cities);
+            // Tables to store initial solutions
             int[] random, iterativeRandom, greedy;
 
+            // Executing the random method
             random = Random(cities, matrix);
             Console.WriteLine("Total length Random: " + GetCost(random, matrix) + " km\n");
 
+            //Executing the iterative random method
             iterativeRandom = IterativeRandom(cities, matrix, 5);
             Console.WriteLine("Total length Iterative Random: " + GetCost(iterativeRandom, matrix) + " km\n");
 
+            // Executing the greedy method
             greedy = Greedy(cities, matrix);
             Console.WriteLine("Total length Greedy: " + GetCost(greedy, matrix) + " km\n");
 
+            // Improving the initial solutions
             Console.WriteLine("Total length Random Improved: " + Improved(random, matrix) + " km\n");
             Console.WriteLine("Total length Iterative Random Improved: " + Improved(iterativeRandom, matrix) + " km\n");
             Console.WriteLine("Total length Greedy Improved: " + Improved(greedy, matrix) + " km\n");
 
             Console.Read();
         }
+        // Method filling the the matrix with cities and distances
         static int[,] MatrixFill(int nodes) {
             Random rnd = new Random();
             int edge;
@@ -51,6 +59,7 @@ namespace TravellingMan{
             Console.WriteLine();
             return cities;
         }
+        // Method calculating total cost of a route
         static int GetCost(int[] route, int[,] cities) {
             int cost = 0;
 
@@ -60,6 +69,7 @@ namespace TravellingMan{
             cost += cities[route[route.Length - 1], route[0]];
             return cost;
         }
+        // Used to print the route
         static void PrintRoute(int[] route) {
             for (int i = 0; i < route.Length; i++) {
                 if (i == (route.Length - 1)) {
@@ -70,7 +80,9 @@ namespace TravellingMan{
                 }
             }
         }
+        // Method making a random solution
         static int[] Random(int numbOfCities, int[,] cities) {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             int i = 0;
             Random rnd = new Random();
             int[] route = new int[numbOfCities];
@@ -85,9 +97,13 @@ namespace TravellingMan{
                     exists[rando] = 1;
                     i++;
                 }
-            }    
+            }
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("Execution Time = " + elapsedMs);
             return route;
         }
+        // Making an iterative random solution
         static int[] IterativeRandom(int numbOfCities, int[,] cities, int iterations) {
             int j, cost;
             int minCost = Int32.MaxValue;
@@ -121,6 +137,7 @@ namespace TravellingMan{
             }
             return cheapest;
         }
+        // Making a greedy solution
         static int[] Greedy(int numbOfCities, int[,] cities) {
             int[] exists = new int[numbOfCities];
             int[] route = new int[numbOfCities];
@@ -142,6 +159,7 @@ namespace TravellingMan{
             }
             return route;
         }
+        // Method improving the initial solutions
         static int Improved(int[] initial, int[,] cities) {
             int cost = GetCost(initial, cities);
             int temp, newCost;
@@ -179,38 +197,6 @@ namespace TravellingMan{
             }
             //PrintRoute(cheapest);
             return cost;
-        }
-        static void Optimal(int numbOfCities, int[,] cities) {
-            int[] exists = new int[numbOfCities];
-            int[] route = new int[numbOfCities];
-            int[] optimal = new int[numbOfCities];
-
-            for (int k = 0; k < numbOfCities; k++) {
-                Array.Clear(exists, 0, exists.Length);
-                int city = k;
-                exists[city] = 1;
-                route[0] = city;
-                for (int i = 1; i < numbOfCities; i++) {
-                    int min = Int32.MaxValue;
-                    for (int j = 0; j < numbOfCities; j++) {
-                        if (cities[route[i - 1], j] < min && cities[route[i - 1], j] != 0 && exists[j] != 1) {
-                            min = cities[route[i - 1], j];
-                            city = j;
-                        }
-                    }
-                    route[i] = city;
-                    exists[city] = 1;
-                }
-                if (k == 0) {
-                    Array.Copy(route, optimal, route.Length);
-                }
-                else {
-                    if (GetCost(route, cities) < GetCost(optimal, cities)) {
-                        Array.Copy(route, optimal, route.Length);
-                    }
-                }
-            }
-            Console.WriteLine("The Optimal Soution is " + GetCost(optimal, cities) + " km.\n");
         }
     }
 }
