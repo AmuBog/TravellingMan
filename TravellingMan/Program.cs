@@ -7,16 +7,13 @@ namespace TravellingMan{
             int[,] matrix = MatrixFill(cities);
             int[] random, iterativeRandom, greedy;
 
-            //Optimal(cities, matrix);
-
             random = Random(cities, matrix);
-            //PrintRoute(random = Random(cities, matrix));
             Console.WriteLine("Total length Random: " + GetCost(random, matrix) + " km\n");
+
             iterativeRandom = IterativeRandom(cities, matrix, 5);
-            //PrintRoute(iterativeRandom = IterativeRandom(cities, matrix, 5));
             Console.WriteLine("Total length Iterative Random: " + GetCost(iterativeRandom, matrix) + " km\n");
+
             greedy = Greedy(cities, matrix);
-            //PrintRoute(greedy = Greedy(cities, matrix));
             Console.WriteLine("Total length Greedy: " + GetCost(greedy, matrix) + " km\n");
 
             Console.WriteLine("Total length Random Improved: " + Improved(random, matrix) + " km\n");
@@ -175,7 +172,7 @@ namespace TravellingMan{
                 else {
                     stagnation++;
                 }
-                if(stagnation > 1000) {
+                if(stagnation > 100) {
                     stop = true;
                 }
                 Array.Copy(cheapest, initial, cheapest.Length);
