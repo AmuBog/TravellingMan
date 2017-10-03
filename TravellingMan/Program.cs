@@ -4,7 +4,7 @@ namespace TravellingMan{
     class Program {
         static void Main(string[] args) {
             // Number of cities
-            int cities = 100;            
+            int cities = 10000;            
             // Matrix containing cities and distance
             int[,] matrix = MatrixFill(cities);
             // Tables to store initial solutions
