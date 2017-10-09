@@ -3,6 +3,7 @@
 namespace TravellingMan{
     class Program {
         static void Main(string[] args) {
+            
             // Number of cities
             int cities = 10000;            
             // Matrix containing cities and distance
@@ -10,7 +11,6 @@ namespace TravellingMan{
             // Tables to store initial solutions
             int[] random, iterativeRandom, greedy;
             
-
             // Executing the random method
             random = Random(cities, matrix);
             Console.WriteLine("Total length Random: " + GetCost(random, matrix) + " km\n");
@@ -198,7 +198,7 @@ namespace TravellingMan{
                 else {
                     stagnation++;
                 }
-                if(stagnation > 100) {
+                if(stagnation > 1000) {
                     stop = true;
                 }
                 Array.Copy(cheapest, initial, cheapest.Length);
