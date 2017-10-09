@@ -6,6 +6,7 @@ namespace TravellingMan{
             int cities = 10000;
             int[,] matrix = MatrixFill(cities);
             int[] random, iterativeRandom, greedy;
+            
 
             //Optimal(cities, matrix);
 
